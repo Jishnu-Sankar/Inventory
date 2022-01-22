@@ -4,6 +4,11 @@ module.exports = {
   createStock: async (stockData) => {
     return await Execute(`INSERT INTO warehouse_stocks SET ?`, stockData);
   },
+  getStockListBy: async () => {
+    return await Execute(
+      `SELECT * FROM warehouse_stocks inner join products using (id_product) inner join warehouses using(id_warehouse)`,
+    );
+  },
   getStockBy: async ({ stockID }) => {
     const result = await Execute(
       `SELECT * FROM warehouse_stocks inner join products using (id_product) inner join warehouses using(id_warehouse) WHERE id_stock = ?`,
