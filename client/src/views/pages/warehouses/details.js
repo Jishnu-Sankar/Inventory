@@ -15,6 +15,7 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CFormSelect
 } from '@coreui/react'
 
 import { attemptGetWareHouseByID } from '../../../actions/warehouses';
@@ -27,6 +28,8 @@ const WareHouseDetails = () => {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [isEdit, setEdit] = useState(false);
+  const [quantity, setQuantity] = useState(0);
 
 
   const fetchWareHouses = () => {
@@ -54,11 +57,24 @@ const WareHouseDetails = () => {
   const unStock = e => {
     const { value: id_stock, id: id_product } = e.target;
 
-    attemptUnStock(id_stock, { id_product, quantity: 0 })
+    attemptUnStock(id_stock, { id_product, quantity })
       .then((data) => {
+        setQuantity(0);
+        setEdit(false);
         fetchWareHouses();
       })
   };
+
+  const getOptions = (limit) => {
+    var rows = [];
+    for (var i = 0; i <= limit; i++) {
+      rows.push(<option key={i} value={i}>{i}</option>);
+    }
+
+    return <>{rows}</>
+  }
+
+  const updateQuantity = (e) => setQuantity(e.target.value);
 
   return !loading && (
     <>
@@ -120,47 +136,52 @@ const WareHouseDetails = () => {
                     <CTableHeaderCell className="text-center">Quantity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                {stocks.length > 0 ? (
-                  <CTableBody>
-                    {stocks.map((item, index) => (
-                      <CTableRow v-for="item in tableItems" key={index}>
-                        <CTableDataCell className="text-center">
-                          <div>{item.id_stock}</div>
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          <div>{item.product_name}</div>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-center">
-                          <div>{item.stock_qty}</div>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-center">
-                          <div>
-                            <CButton size="sm" color='danger' value={item.id_stock} id={item.id_product} onClick={unStock}>
-                              Unstock
-                            </CButton>
-                          </div>
-                        </CTableDataCell>
-                      </CTableRow>
-                    ))}
-                  </CTableBody>
-                )
+                <CTableBody>
+                  {stocks.map((item, index) => (
+                    <CTableRow v-for="item in tableItems" key={index}>
+                      <CTableDataCell className="text-center">
+                        <div>{item.id_stock}</div>
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div>{item.product_name}</div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        {isEdit ?
+                          (
+                            <CFormSelect id="quantity" value={quantity} onChange={updateQuantity}>
+                              {getOptions(item.stock_qty)}
+                            </CFormSelect>
+                          )
+                          : (
+                            <div>{item.stock_qty}</div>
+                          )}
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        {isEdit ?
+                          (
+                            <div>
+                              <CButton size="sm" color='secondary' onClick={() => setEdit(false)}>
+                                Cancel
+                              </CButton>
+                              &nbsp;
+                              <CButton size="sm" color='danger' value={item.id_stock} id={item.id_product} onClick={unStock}>
+                                Unstock
+                              </CButton>
+                            </div>
+                          ) :
+                          (
+                            <div>
+                              <CButton size="sm" color='danger' onClick={() => setEdit(true)}>
+                                Unstock
+                              </CButton>
+                            </div>
+                          )
+                        }
 
-                  : (
-                    <CTableBody>
-                      <CTableRow v-for="item in tableItems">
-                        <CTableDataCell className="text-center">
-                          <div></div>
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          <div></div>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-center">
-                          <div></div>
-                        </CTableDataCell>
-                      </CTableRow>
-                    </CTableBody>
-                  )
-                }
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
 
               </CTable>
             </CCardBody>
