@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+
 import {
   CButton,
   CCard,
@@ -15,28 +15,28 @@ import {
   CTableRow,
 } from '@coreui/react'
 
-import { attemptGetWareHouses } from '../../../actions/warehouses';
-import NewWareHouseModal from '../../components/warehouses/newWHModal';
+import { attemptGetStocks } from '../../../actions/stocks';
+import NewStockModal from '../../components/stocks/newModal';
 
-const WareHouseDashBoard = () => {
-  const [warehouses, setWareHouses] = useState([]);
+const StocksDashboard = () => {
+  const [stocks, setStocksBy] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
 
 
-  const fetchWareHouses = () => {
-    attemptGetWareHouses()
+  const fetchStocks = () => {
+    attemptGetStocks()
       .then((data) => {
-        setWareHouses(data);
+        setStocksBy(data);
         setLoading(false);
       })
       .catch(() => { });
   };
 
-  useEffect(() => { fetchWareHouses(); }, [loading]);
+  useEffect(() => { fetchStocks(); }, [loading]);
 
   const closeModal = () => {
-    fetchWareHouses();
+    fetchStocks();
     setVisible(false);
   };
 
@@ -46,46 +46,35 @@ const WareHouseDashBoard = () => {
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>
-              <b>WareHouses</b>
+              <b>Stocks</b>
               <CButton className='float-end' color="success" onClick={() => setVisible(true)}>
-                Add WareHouse
+                Add Stock
               </CButton>
             </CCardHeader>
             <CCardBody>
               <CTable hover responsive borderless>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      House ID
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>Name</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">
-                      Stock Limit
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">
-                      Available Space
-                    </CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">Stock ID</CTableHeaderCell>
+                    <CTableHeaderCell>Ware House</CTableHeaderCell>
+                    <CTableHeaderCell>Product</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">Quantity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {warehouses.map((item, index) => (
+                  {stocks.map((item, index) => (
                     <CTableRow v-for="item in tableItems" key={index}>
                       <CTableDataCell className="text-center">
-                        <div>{item.id_warehouse}</div>
+                        <div>{item.id_stock}</div>
                       </CTableDataCell>
                       <CTableDataCell>
                         <div>{item.warehouse_name}</div>
                       </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <div>{item.stock_limit}</div>
+                      <CTableDataCell>
+                        <div>{item.product_name}</div>
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
-                        <div>{item.available_space}</div>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <Link to={`/warehouses/${item.id_warehouse}`}>
-                          View
-                        </Link>
+                        <div>{item.stock_qty}</div>
                       </CTableDataCell>
                     </CTableRow>
                   ))}
@@ -95,7 +84,7 @@ const WareHouseDashBoard = () => {
           </CCard>
         </CCol>
       </CRow>
-      <NewWareHouseModal
+      <NewStockModal
         visible={visible}
         closemodal={closeModal}
       />
@@ -103,4 +92,4 @@ const WareHouseDashBoard = () => {
   )
 }
 
-export default WareHouseDashBoard
+export default StocksDashboard

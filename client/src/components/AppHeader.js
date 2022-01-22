@@ -21,6 +21,7 @@ const AppHeader = () => {
   const isProductPage = getPage(currentLocation, 'products');
   const isDashBoard = getPage(currentLocation, 'dashboard');
   const isWareHousePage = getPage(currentLocation, 'warehouses');
+  const isStocksPage = getPage(currentLocation, 'stocks');
 
   return (
     <CHeader position="sticky" className="mb-4">
@@ -47,6 +48,11 @@ const AppHeader = () => {
           <CNavItem>
             <CNavLink href="#/warehouses" active={isWareHousePage}>
               Ware House
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#/stocks" active={isStocksPage}>
+              Stocks
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

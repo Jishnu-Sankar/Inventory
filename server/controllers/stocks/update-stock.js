@@ -4,7 +4,7 @@ const stockModel = require("../../models/stocks");
 const HttpException = require("../../handlers/HttpException");
 
 module.exports = async (req, res) => {
-  if (!req.body || !req.body.id_product || !req.body.quantity) {
+  if (!req.body || !req.body.id_product) {
     throw new HttpException(400, "Bad request: empty fields list");
   }
 
@@ -39,11 +39,22 @@ module.exports = async (req, res) => {
     Quantity,
     stockID
   };
-  const response = await stockModel.updateStockBy(newStock);
+
+  let response;
+  let updateStockQty;
+  if (Quantity === 0) {
+    response = await stockModel.deleteStockByID({ stockID });
+    updateStockQty = warehouse.available_space + stock.stock_qty;
+  } else {
+    response = await stockModel.updateStockBy(newStock);
+    updateStockQty = warehouse.available_space + (stock.stock_qty - Quantity);
+  }
+
   await wareHouseModel.updateWareHouseAvailability({
     houseID: stock.id_warehouse,
-    stock: warehouse.available_space + (stock.stock_qty - Quantity)
+    stock: updateStockQty
   });
+
   if (response) {
     return res.status(200).send({ message: "Unstocked product from Warehouse" });
   }

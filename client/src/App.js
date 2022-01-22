@@ -11,6 +11,7 @@ const loading = (
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
       <HashRouter>
         <React.Suspense fallback={loading}>
           <Switch>
+            <Route exact path="/404" name="Page 404" render={(props) => <Page404 {...props} />} />
             <Route path="/" name="Home" render={(props) => <DefaultLayout {...props} />} />
           </Switch>
         </React.Suspense>

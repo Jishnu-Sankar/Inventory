@@ -19,7 +19,7 @@ export const dispatchError = (res) => {
   }
 
   if (res.status === 404) {
-    return window.location.replace('/404');
+    return window.location.replace('#/404');
   }
 
   const config = {
@@ -34,6 +34,6 @@ export const dispatchError = (res) => {
     theme: 'colored'
   };
 
-  toast(res.body.error, config);
+  toast(res.body.message, config);
   throw res;
 };
