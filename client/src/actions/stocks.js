@@ -18,7 +18,7 @@ export const attemptGetStockByID = (id) =>
 export const attemptAddStock = (fields) =>
   createStock(fields)
     .then((data) => {
-      Notifiy.successNotify('Stock created successfully');
+      Notifiy.successNotify(data.message);
       return data;
     })
     .catch((err) => dispatchError(err));
@@ -26,7 +26,7 @@ export const attemptAddStock = (fields) =>
 export const attemptUnStock = (id_stock, fields) =>
   unStockProduct(id_stock, fields)
     .then((data) => {
-      Notifiy.successNotify('Stock has been updated successfully');
+      Notifiy.successNotify(data.message);
       return data;
     })
     .catch((err) => dispatchError(err));

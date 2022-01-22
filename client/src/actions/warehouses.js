@@ -18,7 +18,7 @@ export const attemptGetWareHouseByID = (id) =>
 export const attemptAddWareHouse = (fields) =>
   createWareHouse(fields)
     .then((data) => {
-      Notifiy.successNotify('WareHouse created successfully');
+      Notifiy.successNotify(data.message);
       return data;
     })
     .catch((err) => dispatchError(err));

@@ -18,7 +18,7 @@ export const attemptGetProductByID = (id) =>
 export const attemptAddProduct = (fields) =>
   createProduct(fields)
     .then((data) => {
-      Notifiy.successNotify('Products created successfully');
+      Notifiy.successNotify(data.message);
       return data;
     })
     .catch((err) => dispatchError(err));
