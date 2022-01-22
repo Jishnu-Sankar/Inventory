@@ -24,7 +24,7 @@ const WareHouseDashBoard = () => {
   const [visible, setVisible] = useState(false);
 
 
-  const fecthUsers = () => {
+  const fetchWareHouses = () => {
     attemptGetWareHouses()
       .then((data) => {
         setWareHouses(data);
@@ -33,10 +33,10 @@ const WareHouseDashBoard = () => {
       .catch(() => { });
   };
 
-  useEffect(() => { fecthUsers(); }, [loading]);
+  useEffect(() => { fetchWareHouses(); }, [loading]);
 
   const closeModal = () => {
-    fecthUsers();
+    fetchWareHouses();
     setVisible(false);
   };
 

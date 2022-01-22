@@ -24,7 +24,7 @@ const ProductDashboard = () => {
   const [visible, setVisible] = useState(false);
 
 
-  const fecthUsers = () => {
+  const fetchProducts = () => {
     attemptGetProducts()
       .then((data) => {
         setProducts(data);
@@ -33,10 +33,10 @@ const ProductDashboard = () => {
       .catch(() => { });
   };
 
-  useEffect(() => { fecthUsers(); }, [loading]);
+  useEffect(() => { fetchProducts(); }, [loading]);
 
   const closeModal = () => {
-    fecthUsers();
+    fetchProducts();
     setVisible(false);
   };
 
