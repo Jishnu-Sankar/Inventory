@@ -133,6 +133,7 @@ const WareHouseDetails = () => {
                   <CTableRow>
                     <CTableHeaderCell className="text-center">Stock ID</CTableHeaderCell>
                     <CTableHeaderCell>Product</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">Unit Price</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">Quantity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
@@ -144,6 +145,9 @@ const WareHouseDetails = () => {
                       </CTableDataCell>
                       <CTableDataCell>
                         <div>{item.product_name}</div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <div>{item.price}</div>
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
                         {isEdit ?

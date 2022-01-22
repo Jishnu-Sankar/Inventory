@@ -58,6 +58,7 @@ const StocksDashboard = () => {
                     <CTableHeaderCell className="text-center">Stock ID</CTableHeaderCell>
                     <CTableHeaderCell>Ware House</CTableHeaderCell>
                     <CTableHeaderCell>Product</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">Unit Price</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">Quantity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
@@ -72,6 +73,9 @@ const StocksDashboard = () => {
                       </CTableDataCell>
                       <CTableDataCell>
                         <div>{item.product_name}</div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <div>{item.price}</div>
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
                         <div>{item.stock_qty}</div>
